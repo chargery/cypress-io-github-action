@@ -324,6 +324,43 @@ const waitOnMaybe = () => {
   return ping(waitOn, waitTimeoutMs)
 }
 
+const startServerMaybe2 = () => {
+  let startCommand
+
+  if (isWindows()) {
+    // allow custom Windows start command
+    startCommand =
+      core.getInput('start-windows2') || core.getInput('start2')
+  } else {
+    startCommand = core.getInput('start2')
+  }
+  if (!startCommand) {
+    core.debug('No start command found')
+    return
+  }
+
+  return execCommand(startCommand, false, 'start server')
+}
+
+const waitOnMaybe2 = () => {
+  const waitOn = core.getInput('wait-on2')
+  if (!waitOn) {
+    return
+  }
+
+  const waitOnTimeout = core.getInput('wait-on-timeout2') || '60'
+
+  console.log(
+    'waiting on "%s" with timeout of %s seconds',
+    waitOn,
+    waitOnTimeout
+  )
+
+  const waitTimeoutMs = parseFloat(waitOnTimeout) * 1000
+
+  return ping(waitOn, waitTimeoutMs)
+}
+
 const I = x => x
 
 /**
@@ -683,7 +720,9 @@ const installMaybe = () => {
 installMaybe()
   .then(buildAppMaybe)
   .then(startServerMaybe)
+  .then(startServerMaybe2)
   .then(waitOnMaybe)
+  .then(waitOnMaybe2)
   .then(runTests)
   .then(() => {
     core.debug('all done, exiting')

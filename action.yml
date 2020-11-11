@@ -26,6 +26,9 @@ inputs:
   start:
     description: 'Command for starting local server in the background'
     required: false
+  start2:
+    description: 'Command for starting a second local server in the background'
+    required: false
   start-windows:
     description: 'A different start command on Windows'
     required: false
@@ -41,8 +44,14 @@ inputs:
   wait-on:
     description: 'Local server URL to wait for'
     required: false
+  wait-on2:
+    description: 'Second local server URL to wait for'
+    required: false
   wait-on-timeout:
     description: 'Amount of time to wait for wait-on url to be available'
+    required: false
+  wait-on-timeout2:
+    description: 'Amount of time to wait for second wait-on url to be available'
     required: false
   parallel:
     description: 'Whether or not to load balance tests using multiple containers'
